@@ -3,7 +3,6 @@ import './App.css';
 import { fetchTopAlbums,fetchNewAlbums  } from './api/api';
 import Hero from './components/Hero/Hero';
 import { Navbar } from './components/navbar/Navbar';
-import Card from './components/Card/Card';
 import Section from './components/Section/Section';
 
 function App() {
