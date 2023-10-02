@@ -1,40 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './Section.module.css';
-import { CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import Carousel from '../Carousel/Carousel';
 import Card from '../Card/Card';
+import BasicTabs from "../Tabs/Tabs";
 
 
-const Section = ({title, data}) => {
+const Section = ({title, data, type, filteredData=null, filteredDataValues=[], toggle=false, handleToggle=null, value=0, handleChange=null}) => {
 
-    const [carouselToggle, setCarouselToggle]=useState(true);
-    const handleToggle=()=>{
-        setCarouselToggle(!carouselToggle);
-    }
-    console.log(data);
+    
   return (
     <div>
        <div className={styles.header}>
         <h3>{title}</h3>
         <h4 className={styles.toggleText} onClick={handleToggle}>
-            {carouselToggle?"Show All":"Collapse All"}
+            {!toggle?"Show All":"Collapse All"}
         </h4>
        </div>
+       {type === "song" ? <BasicTabs value ={value} handleChange={handleChange}/>:null}
        {
-        !data.length?(
-            <CircularProgress/>
+        data.length===0 ?(
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <CircularProgress/>
+            </Box>
         ):(
             <div className={styles.cardWrapper}>
                 {
-                    !carouselToggle?
+                toggle?
                     (<div className={styles.wrapper}>
                         {
-                            data.map((item)=>
+                            filteredDataValues.map((item)=>
                             
-                            <Card key={item.id} data={item} type="album"/>)
+                            <Card key={item.id} data={item} type={type}/>)
                         }
                     </div>):(
-                        <Carousel data={data} componentRender={(data)=><Card data={data} type="album"/>}/>
+                        <Carousel data={filteredDataValues} componentRender={(data)=><Card data={data} type={type}/>}/>
                     )
                 }
             </div>
